@@ -16,8 +16,14 @@
         <h2>Personal Carbon Emissions Calculator</h2>
         <p><i>for san diego residents</i></p>
         
-        <label>Daily commute distance (km)</label>
-        <input type="number" id="vehicle_km" placeholder="Enter km">
+        <label>Car commute distance (km per month)</label>
+        <input type="number" id="car_distance" placeholder="Enter km">
+
+        <label>Plane travel distance (km per month)</label>
+        <input type="number" id="plane_distance" placeholder="Enter km">
+
+        <label>Other transport distance (km per month)</label>
+        <input type="number" id="other_distance" placeholder="Enter km">
 
         <label>Monthly electricity consumption (kWh)</label>
         <input type="number" id="electricity" placeholder="Enter kWh">
@@ -28,20 +34,34 @@
         <label>Meals per day</label>
         <input type="number" id="meals" placeholder="Enter number of meals">
 
+        <label>Diet</label>
+        <select id="diet">
+            <option value="omnivore">Omnivore</option>
+            <option value="pescatarian">Pescatarian</option>
+            <option value="vegetarian">Vegetarian</option>
+            <option value="vegan">Vegan</option>
+        </select>
         <button onclick="calculateEmissions()">Calculate CO2 Emissions</button>
 
-        <h3>Results</h3>
+        <p><i><small>(yearly emmisions, based on EPA guidelines)</small></i></p>
         <p id="results"></p>
+
+
+
     </div>
 
     <script>
         function calculateEmissions() {
-    const data = {
-        vehicle_km: parseFloat(document.getElementById("vehicle_km").value) || 0,
-        electricity: parseFloat(document.getElementById("electricity").value) || 0,
-        waste: parseFloat(document.getElementById("waste").value) || 0,
-        meals: parseFloat(document.getElementById("meals").value) || 2
-    };
+            const data = {
+            car_distance: parseFloat(document.getElementById("car_distance").value) || 0,
+            plane_distance: parseFloat(document.getElementById("plane_distance").value) || 0,
+            other_distance: parseFloat(document.getElementById("other_distance").value) || 0,
+            electricity: parseFloat(document.getElementById("electricity").value) || 0,
+            waste: parseFloat(document.getElementById("waste").value) || 0,
+            meals: parseFloat(document.getElementById("meals").value) || 2,
+            diet: document.getElementById("diet").value  // Assuming you're using the diet select element
+        };
+
 
     fetch("http://127.0.0.1:5000/calculate", {
         method: "POST",
@@ -53,18 +73,22 @@
         console.log("Response:", data);  // Debugging line to see the response in console
         document.getElementById("results").innerHTML = `
             <strong>Results:</strong><br>
-            Transportation: ${data.transportation} kg CO₂ per year<br>
+            Car: ${data.car} kg CO₂ per year<br>
+            Plane: ${data.plane} kg CO₂ per year<br>
+            Other transport: ${data.other} kg CO₂ per year<br>
+            <strong>Total Transportation: ${data.total_transportation} kg CO₂ per year</strong><br>
             Electricity: ${data.electricity} kg CO₂ per year<br>
             Diet: ${data.diet} kg CO₂ per year<br>
             Waste: ${data.waste} kg CO₂ per year<br>
             <strong>Total: ${data.total} kg CO₂ per year</strong><br>
-            Trees needed to offset: ${data.trees_needed}
+            Trees needed to offset🌳: ${data.trees_needed}
         `;
     })
     .catch(error => {
         console.error("Error:", error);
         document.getElementById("results").innerHTML = `<strong style="color: red;">Error fetching data. Check console.</strong>`;
     });
+
 }
 
     </script>
