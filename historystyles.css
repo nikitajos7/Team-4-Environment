@@ -1,0 +1,82 @@
+
+
+html{
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: white;
+    line-height: 1.5;
+}
+
+
+
+.intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.left {
+    max-width: 50%;
+  }
+
+.right {
+    max-width: 40%;
+}
+ 
+
+.hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+}
+
+.overlay {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.nav-links {
+    justify-content: left;
+}
+
+.water { background-image: url('images/water.jpg'); }
+.air { background-image: url('images/air.jpg'); }
+.marine { background-image: url('images/marine.jpg'); }
+.fire { background-image: url('images/fire.jpg'); }
+.intro { background-image: url('images/tree.jpg')}
+
+
+h1 {
+    font-size: 3rem;
+    margin: 0;
+}
+
+p {
+    font-size: 1.2rem;
+    margin: 1rem 0;
+}
+
+.button {
+    background: #007bff;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 10px;
+    margin: 5px;
+}
+
+.button:hover {
+    background: #0056b3;
+}
