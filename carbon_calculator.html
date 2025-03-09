@@ -7,14 +7,14 @@
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; }
         .container { max-width: 500px; margin: auto; }
-        input, button { width: 100%; margin: 10px 0; padding: 10px; }
+        input, button, select { width: 100%; margin: 10px 0; padding: 10px; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <h2>Personal Carbon Emissions Calculator</h2>
-        <p><i>for san diego residents</i></p>
+        <p><i>for San Diego residents</i></p>
         
         <label>Car commute distance (km per month)</label>
         <input type="number" id="car_distance" placeholder="Enter km">
@@ -43,56 +43,69 @@
         </select>
         <button onclick="calculateEmissions()">Calculate CO2 Emissions</button>
 
-        <p><i><small>(yearly emmisions, based on EPA guidelines)</small></i></p>
+        <p><i><small>(Yearly emissions, based on EPA guidelines)</small></i></p>
         <p id="results"></p>
-
-
-
     </div>
 
     <script>
-        function calculateEmissions() {
-            const data = {
-            car_distance: parseFloat(document.getElementById("car_distance").value) || 0,
-            plane_distance: parseFloat(document.getElementById("plane_distance").value) || 0,
-            other_distance: parseFloat(document.getElementById("other_distance").value) || 0,
-            electricity: parseFloat(document.getElementById("electricity").value) || 0,
-            waste: parseFloat(document.getElementById("waste").value) || 0,
-            meals: parseFloat(document.getElementById("meals").value) || 2,
-            diet: document.getElementById("diet").value  // Assuming you're using the diet select element
+        const EMISSION_FACTORS = {
+            Electricity: 0.225,
+            Diet: {
+                omnivore: 2.5,
+                pescatarian: 2.0,
+                vegetarian: 1.5,
+                vegan: 1.0
+            },
+            Waste: 0.275,
+            Transportation: {
+                car: 0.251,
+                plane: 0.285,
+                other: 0.3
+            }
         };
+        
+        const CO2_PER_TREE_PER_YEAR = 58;
 
+        function calculateEmissions() {
+            const car_distance = parseFloat(document.getElementById("car_distance").value) || 0;
+            const plane_distance = parseFloat(document.getElementById("plane_distance").value) || 0;
+            const other_distance = parseFloat(document.getElementById("other_distance").value) || 0;
+            const electricity = parseFloat(document.getElementById("electricity").value) || 0;
+            const waste = parseFloat(document.getElementById("waste").value) || 0;
+            const meals = parseFloat(document.getElementById("meals").value) || 2;
+            const diet = document.getElementById("diet").value;
+            
+            const yearly_car_distance = car_distance * 12;
+            const yearly_plane_distance = plane_distance * 12;
+            const yearly_other_distance = other_distance * 12;
+            const yearly_meals = meals * 365;
+            const yearly_waste = waste * 52;
+            
+            const electricity_emissions = (EMISSION_FACTORS.Electricity * electricity * 12).toFixed(2);
+            const diet_emissions = (EMISSION_FACTORS.Diet[diet] * yearly_meals).toFixed(2);
+            const waste_emissions = (EMISSION_FACTORS.Waste * yearly_waste).toFixed(2);
+            const car_emissions = (EMISSION_FACTORS.Transportation.car * yearly_car_distance).toFixed(2);
+            const plane_emissions = (EMISSION_FACTORS.Transportation.plane * yearly_plane_distance).toFixed(2);
+            const other_emissions = (EMISSION_FACTORS.Transportation.other * yearly_other_distance).toFixed(2);
+            
+            const total_transportation_emissions = (parseFloat(car_emissions) + parseFloat(plane_emissions) + parseFloat(other_emissions)).toFixed(2);
+            const total_emissions = (parseFloat(electricity_emissions) + parseFloat(diet_emissions) + parseFloat(waste_emissions) + parseFloat(total_transportation_emissions)).toFixed(2);
+            const trees_needed = Math.round(total_emissions / CO2_PER_TREE_PER_YEAR);
 
-    fetch("http://127.0.0.1:5000/calculate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Response:", data);  // Debugging line to see the response in console
-        document.getElementById("results").innerHTML = `
-            <strong>Results:</strong><br>
-            Car: ${data.car} kg CO₂ per year<br>
-            Plane: ${data.plane} kg CO₂ per year<br>
-            Other transport: ${data.other} kg CO₂ per year<br>
-            <strong>Total Transportation: ${data.total_transportation} kg CO₂ per year</strong><br>
-            Electricity: ${data.electricity} kg CO₂ per year<br>
-            Diet: ${data.diet} kg CO₂ per year<br>
-            Waste: ${data.waste} kg CO₂ per year<br>
-            <strong>Total: ${data.total} kg CO₂ per year</strong><br>
-            Trees needed to offset🌳: ${data.trees_needed}
-        `;
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        document.getElementById("results").innerHTML = `<strong style="color: red;">Error fetching data. Check console.</strong>`;
-    });
-
-}
-
+            document.getElementById("results").innerHTML = `
+                <strong>Results:</strong><br>
+                Car: ${car_emissions} kg CO₂ per year<br>
+                Plane: ${plane_emissions} kg CO₂ per year<br>
+                Other transport: ${other_emissions} kg CO₂ per year<br>
+                <strong>Total Transportation: ${total_transportation_emissions} kg CO₂ per year</strong><br>
+                Electricity: ${electricity_emissions} kg CO₂ per year<br>
+                Diet: ${diet_emissions} kg CO₂ per year<br>
+                Waste: ${waste_emissions} kg CO₂ per year<br>
+                <strong>Total: ${total_emissions} kg CO₂ per year</strong><br>
+                Trees needed to offset🌳: ${trees_needed}
+            `;
+        }
     </script>
 
 </body>
 </html>
-
