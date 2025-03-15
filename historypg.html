@@ -50,10 +50,10 @@
             <div class="overlay">
                 <p>Discover how San Diego has worked to protect its natural resources over time, from air and water quality to land preservation.</p>
                 <div class="nav-links">
-                    <a href="#water" class="button" onclick="updateUserPoints('Water')">Water</a>
-                    <a href="#air" class="button" onclick="updateUserPoints('Air Quality')">Air Quality</a>
-                    <a href="#marine" class="button" onclick="updateUserPoints('Marine Conservation')">Marine Conservation</a>
-                    <a href="#fire" class="button" onclick="updateUserPoints('Wildfires')">Wildfires</a>
+                    <a href="#water" class="button">Water</a>
+                    <a href="#air" class="button" >Air Quality</a>
+                    <a href="#marine" class="button" >Marine Conservation</a>
+                    <a href="#fire" class="button" >Wildfires</a>
                 </div>
             </div>
         </div>
@@ -85,6 +85,29 @@
             <p>Climate change will likely increase the frequency and severity of wildfires in San Diego, due to drought and rising temperatures. These fires pose a major threat to ecosystems, homes, and communities, causing significant environmental, financial, social, and health impacts. Learn more about the history of major fires that have occurred in San Diego.</p>
             <a href="https://www.sandiego.gov/fire/about/majorfires" target="_blank" class="button" onclick="updateUserPoints('Wildfires')">Learn More</a>
         </div>
+        <div id="signup-modal" class="auth-modal">
+            <div class="auth-form">
+              <span class="close-button" onclick="closeAuthModal('signup-modal')">×</span>
+              <h2>Sign Up</h2>
+              <div id="signup-error" class="error-message"></div>
+              <input type="email" id="signup-email" placeholder="Email">
+              <input type="password" id="signup-password" placeholder="Password">
+              <button id="submit-signup">Create Account</button>
+              <p>Already have an account? <a href="#" onclick="openAuthModal('signin-modal'); closeAuthModal('signup-modal');">Sign In</a></p>
+            </div>
+          </div>
+        
+          <div id="signin-modal" class="auth-modal">
+            <div class="auth-form">
+              <span class="close-button" onclick="closeAuthModal('signin-modal')">×</span>
+              <h2>Sign In</h2>
+              <div id="signin-error" class="error-message"></div>
+              <input type="email" id="signin-email" placeholder="Email">
+              <input type="password" id="signin-password" placeholder="Password">
+              <button id="submit-signin">Sign In</button>
+              <p>Don't have an account? <a href="#" onclick="openAuthModal('signup-modal'); closeAuthModal('signin-modal');">Sign Up</a></p>
+            </div>
+          </div>
     </section>
 </body>
 </html>
