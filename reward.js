@@ -17,7 +17,7 @@ function updatePointsDisplay(points) {
   if (pointsDisplayElement) {
     pointsDisplayElement.textContent = points;
   }
-  updatePlantImage(points); 
+  updatePlantImage(points);
 }
 
 window.onload = function () {

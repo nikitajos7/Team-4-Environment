@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>San Diego Local Efforts</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
         }
 
-        .search-container, .filter-container {
+        .search-container,
+        .filter-container {
             margin-bottom: 20px;
         }
 
@@ -41,9 +45,50 @@
             padding: 10px 15px;
             cursor: pointer;
         }
+
+        .main-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            /* Ensure it is above other content */
+        }
+
+        body {
+            padding-top: 100px;
+            /* Adjust this value based on the height of your header */
+        }
     </style>
 </head>
+
 <body>
+    <header class="main-header">
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none;"><img src="./imgs/koala.png" alt="website logo"></a>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="carbon_calculator.html">Carbon Footprint</a></li>
+                <li><a href="historypg.html">History</a></li>
+                <li><a href="rewards.html">Rewards</a></li>
+                <li><a href="localefforts.html">Local Efforts</a></li>
+                <li><button id="sign-in-button">Sign In</button></li>
+                <li id="user-info-container" style="display: none;">
+                    <span id="user-info">
+                        Welcome, User
+                    </span>
+                    <div id="gif-tooltip-wrapper">
+                        <img src="./imgs/94db8cefb34996b00c1f17f76e185031.gif"
+                            style="width: 50px; height: 50px; vertical-align: middle;" alt="plant">
+                        <div id="plant-tooltip" class="tooltip">plants grown: <span id="plant-count">1</span></div>
+                    </div>
+                </li>
+                <li id="sign-out-container" style="display: none;">
+                    <button id="sign-out-button">Sign Out</button>
+                </li>
+            </ul>
+        </nav>
+    </header>
 
     <h1>Local Efforts</h1>
 
@@ -75,27 +120,53 @@
         <button onclick="navigate(1)">Next</button>
     </div>
 
+    <div id="signup-modal" class="auth-modal">
+        <div class="auth-form">
+            <span class="close-button" onclick="closeAuthModal('signup-modal')">×</span>
+            <h2>Sign Up</h2>
+            <div id="signup-error" class="error-message"></div>
+            <input type="email" id="signup-email" placeholder="Email">
+            <input type="password" id="signup-password" placeholder="Password">
+            <button id="submit-signup">Create Account</button>
+            <p>Already have an account? <a href="#"
+                    onclick="openAuthModal('signin-modal'); closeAuthModal('signup-modal');">Sign In</a></p>
+        </div>
+    </div>
+
+    <div id="signin-modal" class="auth-modal">
+        <div class="auth-form">
+            <span class="close-button" onclick="closeAuthModal('signin-modal')">×</span>
+            <h2>Sign In</h2>
+            <div id="signin-error" class="error-message"></div>
+            <input type="email" id="signin-email" placeholder="Email">
+            <input type="password" id="signin-password" placeholder="Password">
+            <button id="submit-signin">Sign In</button>
+            <p>Don't have an account? <a href="#"
+                    onclick="openAuthModal('signup-modal'); closeAuthModal('signin-modal');">Sign Up</a></p>
+        </div>
+    </div>
+
     <script>
         // Define the efforts with categories
         const allEfforts = [
-            { name: "Climate Action Campaign", image: "effort1.jpg", link: "https://www.climateactioncampaign.org/", category: "Climate" },
-            { name: "San Diego Bird Alliance", image: "effort2.jpg", link: "https://www.sandiegobirdalliance.org/what-we-do/overview.html#:~:text=Our%20work%20We%20seek%20to%20shape%20a,appreciating%20our%20local%20wildlife%20and%20their%20habitats.", category: "Wildlife" },
-            { name: "San Diego Zoo Wildlife Alliance", image: "effort3.jpg", link: "https://www.islands.com/1636405/best-zoos-america-reviews/#:~:text=The%20San%20Diego%20Zoo%20Wildlife%20Alliance%20is,to%20climate%20change%2C%20and%20protect%20endangered%20animals.", category: "Wildlife" },
-            { name: "Surfrider Foundation San Diego County", image: "effort4.jpg", link: "https://sandiego.surfrider.org/", category: "Ocean Preservation" },
-            { name: "Environmental Health Coalition", image: "effort5.jpg", link: "https://www.environmentalhealth.org/index.php/en/where-we-work/san-diego-region", category: "Environmental Justice" },
-            { name: "SanDiego350", image: "effort6.jpg", link: "https://sandiego350.org/", category: "Climate" },
-            { name: "San Dieguito River Park Conservancy", image: "effort7.jpg", link: "https://sdrvc.org/", category: "Environmental Justice" },
-            { name: "California Native Plant Society, San Diego Chapter", image: "effort8.jpg", link: "https://www.cnpssd.org/", category: "Environmental Justice" },
-            { name: "San Diego Coastkeeper", image: "effort9.jpg", link: "https://www.sdcoastkeeper.org/", category: "Ocean Preservation" },
-            { name: "San Diego Audubon Society", image: "effort10.jpg", link: "https://www.sandiegoaudubon.org/ ", category: "Wildlife" },
-            { name: "Chaparral Lands Conservancy", image: "effort11.jpg", link: "https://www.chaparralconservancy.org/", category: "Environmental Justice" },
-            { name: "Sierra Club San Diego", image: "effort12.jpg", link: "http://sandiegosierraclub.org/ ", category: "Environmental Justice" },
-            { name: "San Diego Rivee Park Foundation", image: "effort13.jpg", link: "https://sandiegoriver.org/", category: "Ocean Preservation" },
-            { name: "River Park Foundation", image: "effort14.jpg", link: "https://sandiegoriver.org/ ", category: "Community" },
-            { name: "San Diego Canyonlands", image: "effort15.jpg", link: "https://www.sdcanyonlands.org/", category: "Environmental Justice" },
-            { name: "San Diego Habitat Conservancy", image: "effort16.jpg", link: "https://www.sdhabitat.org/", category: "Environmental Justice" },
-            { name: "San Diego Green New Deal", image: "effort17.jpg", link: "https://www.greennewdealsd.org/", category: "Climate" },
-            { name: "Wildcoast", image: "effort18.jpg", link: "https://wildcoast.org/", category: "Climate" }
+            { name: "Climate Action Campaign", image: "localeffortimgs/effort1.jpg", link: "https://www.climateactioncampaign.org/", category: "Climate" },
+            { name: "San Diego Bird Alliance", image: "localeffortimgs/effort2.jpg", link: "https://www.sandiegobirdalliance.org/what-we-do/overview.html#:~:text=Our%20work%20We%20seek%20to%20shape%20a,appreciating%20our%20local%20wildlife%20and%20their%20habitats.", category: "Wildlife" },
+            { name: "San Diego Zoo Wildlife Alliance", image: "localeffortimgs/effort3.jpg", link: "https://www.islands.com/1636405/best-zoos-america-reviews/#:~:text=The%20San%20Diego%20Zoo%20Wildlife%20Alliance%20is,to%20climate%20change%2C%20and%20protect%20endangered%20animals.", category: "Wildlife" },
+            { name: "Surfrider Foundation San Diego County", image: "localeffortimgs/effort4.jpg", link: "https://sandiego.surfrider.org/", category: "Ocean Preservation" },
+            { name: "Environmental Health Coalition", image: "localeffortimgs/effort5.jpg", link: "https://www.environmentalhealth.org/index.php/en/where-we-work/san-diego-region", category: "Environmental Justice" },
+            { name: "SanDiego350", image: "localeffortimgs/effort6.jpg", link: "https://sandiego350.org/", category: "Climate" },
+            { name: "San Dieguito River Park Conservancy", image: "localeffortimgs/effort7.jpg", link: "https://sdrvc.org/", category: "Environmental Justice" },
+            { name: "California Native Plant Society, San Diego Chapter", image: "localeffortimgs/effort8.jpg", link: "https://www.cnpssd.org/", category: "Environmental Justice" },
+            { name: "San Diego Coastkeeper", image: "localeffortimgs/effort9.png", link: "https://www.sdcoastkeeper.org/", category: "Ocean Preservation" },
+            { name: "San Diego Audubon Society", image: "localeffortimgs/effort10.png", link: "https://www.sandiegoaudubon.org/ ", category: "Wildlife" },
+            { name: "Chaparral Lands Conservancy", image: "localeffortimgs/effort11.PNG", link: "https://www.chaparralconservancy.org/", category: "Environmental Justice" },
+            { name: "Sierra Club San Diego", image: "localeffortimgs/effort12.png", link: "http://sandiegosierraclub.org/ ", category: "Environmental Justice" },
+            { name: "San Diego Rivee Park Foundation", image: "localeffortimgs/effort13.png", link: "https://sandiegoriver.org/", category: "Ocean Preservation" },
+            { name: "River Park Foundation", image: "localeffortimgs/effort14.png", link: "https://sandiegoriver.org/ ", category: "Community" },
+            { name: "San Diego Canyonlands", image: "localeffortimgs/effort15.png", link: "https://www.sdcanyonlands.org/", category: "Environmental Justice" },
+            { name: "San Diego Habitat Conservancy", image: "localeffortimgs/effort16.png", link: "https://www.sdhabitat.org/", category: "Environmental Justice" },
+            { name: "San Diego Green New Deal", image: "localeffortimgs/effort17.jpg", link: "https://www.greennewdealsd.org/", category: "Climate" },
+            { name: "Wildcoast", image: "localeffortimgs/effort18.jpg", link: "https://wildcoast.org/", category: "Climate" }
 
         ];
 
@@ -106,7 +177,7 @@
         function displayEfforts() {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
             const selectedCategory = document.getElementById('categoryFilter').value;
-            
+
             const filteredEfforts = allEfforts.filter(effort => {
                 const matchesSearch = effort.name.toLowerCase().includes(searchInput);
                 const matchesCategory = !selectedCategory || effort.category === selectedCategory;
@@ -143,8 +214,8 @@
             const filteredEfforts = allEfforts.filter(effort => {
                 const searchInput = document.getElementById('searchInput').value.toLowerCase();
                 const selectedCategory = document.getElementById('categoryFilter').value;
-                return effort.name.toLowerCase().includes(searchInput) && 
-                       (!selectedCategory || effort.category === selectedCategory);
+                return effort.name.toLowerCase().includes(searchInput) &&
+                    (!selectedCategory || effort.category === selectedCategory);
             });
             if (currentPage > Math.ceil(filteredEfforts.length / itemsPerPage)) currentPage = Math.ceil(filteredEfforts.length / itemsPerPage);
             displayEfforts();
@@ -154,6 +225,8 @@
         displayEfforts();
 
     </script>
+    </div>
 
 </body>
+
 </html>

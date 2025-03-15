@@ -1,6 +1,4 @@
-
-
-html{
+html {
     scroll-behavior: smooth;
 }
 
@@ -20,12 +18,12 @@ body {
 
 .left {
     max-width: 50%;
-  }
+}
 
 .right {
     max-width: 40%;
 }
- 
+
 
 .hero {
     position: relative;
@@ -50,11 +48,25 @@ body {
     justify-content: left;
 }
 
-.water { background-image: url('images/water.jpg'); }
-.air { background-image: url('images/air.jpg'); }
-.marine { background-image: url('images/marine.jpg'); }
-.fire { background-image: url('images/fire.jpg'); }
-.intro { background-image: url('images/tree.jpg')}
+.water {
+    background-image: url('images/water.jpg');
+}
+
+.air {
+    background-image: url('images/air.jpg');
+}
+
+.marine {
+    background-image: url('images/marine.jpg');
+}
+
+.fire {
+    background-image: url('images/fire.jpg');
+}
+
+.intro {
+    background-image: url('images/tree.jpg')
+}
 
 
 h1 {
