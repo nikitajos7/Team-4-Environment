@@ -1,22 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Points</title>
-    <link rel="stylesheet" href="rewards.css" type="text/css">
-    <script type="text/javascript" src="reward.js"></script>
-</head>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Points</title>
+      <link rel="stylesheet" href="styles.css">
+      <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+      <script type="module" src="firebase.js"></script>
+      <script type="module" src="script.js"></script>
+  </head>
 <body>
-    <h1>Points</h1>
-    <p>Here you can see your plant grow as you gain more and more points</p>
-    <div class="container rewards">
-        <img id="plantImage" class="reward-card" src="defaultPlant.jpg" alt="Plant Image">
+    <header class="main-header">
+        <div class="logo">
+            <a href="home.html" style="text-decoration: none;"><img src="./imgs/koala.png" alt="website logo"></a>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="carbon_calculator.html">Carbon Footprint</a></li>
+                <li><a href="historypg.html">History</a></li>
+                <li><a href="rewards.html">Rewards</a></li>
+                <li><a href="localefforts.html">Local Efforts</a></li>
+                <li><button id="sign-in-button">Sign In</button></li>
+                <li id="user-info-container" style="display: none;">
+                  <span id="user-info">
+                    Welcome, User
+                  </span>
+                  <div id="gif-tooltip-wrapper">
+                    <img src="./imgs/94db8cefb34996b00c1f17f76e185031.gif" style="width: 50px; height: 50px; vertical-align: middle;" alt="plant">
+                    <div id="plant-tooltip" class="tooltip">plants grown: <span id="plant-count">1</span></div>
+                  </div>
+                </li>
+                <li id="sign-out-container" style="display: none;">
+                    <button id="sign-out-button">Sign Out</button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div id="header-placeholder" style="height: 0;"></div>
+
+    <div id="signup-modal" class="auth-modal">
+        <div class="auth-form">
+            <span class="close-button" onclick="closeAuthModal('signup-modal')">×</span>
+            <h2>Sign Up</h2>
+            <div id="signup-error" class="error-message"></div>
+            <input type="email" id="signup-email" placeholder="Email">
+            <input type="password" id="signup-password" placeholder="Password">
+            <button id="submit-signup">Create Account</button>
+            <p>Already have an account? <a href="#" onclick="openAuthModal('signin-modal'); closeAuthModal('signup-modal');">Sign In</a></p>
+        </div>
+    </div>
+
+    <div id="signin-modal" class="auth-modal">
+        <div class="auth-form">
+            <span class="close-button" onclick="closeAuthModal('signin-modal')">×</span>
+            <h2>Sign In</h2>
+            <div id="signin-error" class="error-message"></div>
+            <input type="email" id="signin-email" placeholder="Email">
+            <input type="password" id="signin-password" placeholder="Password">
+            <button id="submit-signin">Sign In</button>
+            <p>Don't have an account? <a href="#" onclick="openAuthModal('signup-modal'); closeAuthModal('signin-modal');">Sign Up</a></p>
+        </div>
+    </div>
+    <div class="rewards-content">
+        <h1>Points</h1>
+        <p>Here you can see your plant grow as you gain more and more points</p>
+        <img id="plantImage" class="reward-card" src="./plantimage/seed.png" alt="Plant Image">
         <p>Your current points: <span id="pointsDisplay">0</span></p>
     </div>
-    <a href="index.html">Go back to homepage</a>
-    <footer>
-        <p>Made by: WIC &hearts;</p>
-    </footer>
 </body>
 </html>

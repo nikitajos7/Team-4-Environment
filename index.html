@@ -1,35 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PV5BD99R"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-        <!-- End Google Tag Manager (noscript) -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>San Diego Environmental Website</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:ital,wght@0,400..700;1,400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="./imgs/favicon.ico">
+    <!-- Import Firebase and Script -->
+    <script type="module" src="firebase.js"></script>
+    <script type="module" src="script.js"></script>
+</head>
+<body>
+  <header class="main-header">
+    <div class="logo">
+      <a href="home.html" style="text-decoration: none;"><img src="./imgs/koala.png" alt="website logo"></a>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="carbon_calculator.html">Carbon Footprint</a></li>
+        <li><a href="historypg.html">History</a></li>
+        <li><a href="rewards.html">Rewards</a></li>
+        <li><a href="localefforts.html">Local Efforts</a></li>
+        <li><button id="sign-in-button">Sign In</button></li>
+        <li id="user-info-container" style="display: none;">
+          <span id="user-info">
+            Welcome, User
+          </span>
+          <div id="gif-tooltip-wrapper">
+            <img src="./imgs/94db8cefb34996b00c1f17f76e185031.gif" style="width: 50px; height: 50px; vertical-align: middle;" alt="plant">
+            <div id="plant-tooltip" class="tooltip">plants grown: <span id="plant-count">1</span></div>
+          </div>
+        </li>
+        <li id="sign-out-container" style="display: none;">
+          <button id="sign-out-button">Sign Out</button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <div id="header-placeholder" style="height: 0;"></div>
 
-        <meta charset="UTF-8">
-         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Project Title</title>
-   	   <link rel="stylesheet" href="styles.css" type=”text/css”/>
-        <link rel="icon" href="" type="image/x-icon" />
-        <script type="text/javascript" src="script.js"></script>
-    </head>
+  <main>
+  <div class="welcome-image">
+    <img src="./imgs/sea-lion-in-la-jolla-on-rock-scaled.jpgw3.jpg" alt="sea lion">
+    <div class="image-overlay">
+      <h2>Preserving the beauty and history of San Diego</h2>
+    </div>
+  </div>
+  <div class="left-container">
+    <div class="left">
+      <img src="./imgs/lajollasandiego-5.jpg" alt="beach">
+      <section class="content">
+        <h1>Mission</h1>
+        <p>We strive to inspire and empower individuals and communities to embrace sustainable living, protect our natural environment, 
+          and take meaningful action toward a greener future. Through education, local initiatives, and collective efforts,
+           we strive to reduce our carbon footprint, preserve wildlife, and foster a deeper connection with the lovely San Diego we call home.</p>
+      </section>
+    </div>
+  </div>
+  <div class="right-container">
+    <div class="right">
+      <img src="./imgs/117215981_m.jpg" alt="sea lions">
+      <section class="content">
+        <h1 style="color: #EEE8AA;">Local Efforts</h1>
+        <p>We've collected a diverse set of initiatives within San Diego who continue to fight for the wellbeing of our native ecosystems like our wildlife and coasts. Find out more by clicking this button or visisting the page through our header!</p>
+        <button><a href="right.html" style="text-decoration: none; color: white;">Local Efforts</a></button>
+      </section>
+    </div>
+  </div>
+  <div class="left-container">
+    <div class="left">
+      <img src="./imgs/balboaPark.jpg" alt="sea lions">
+      <section class="content">
+        <h1>History</h1>
+        <p>Learn about the changes and transformations San Diego has gone through. Find out more by clicking this button or visisting the page through our header!</p>
+        <button><a href="historypg.html" style="text-decoration: none; color: white;">History</a></button>
+      </section>
+    </div>
+  </div>
+  <div class="right-container">
+    <div class="right">
+      <img src="./imgs/flower_field.jpg" alt="sea lions">
+      <section class="content">
+      <h1 style="color: #EEE8AA;">Grow a Plant!</h1>
+      <p>Get involved with the community by participating in our local efforts or learning more about them and gain points to grow a plant! Check your progress here!</p>
+      <button><a href="rewards.html" style="text-decoration: none; color:white;">Rewards!</a></button>
+  </section>
+    </div>
+  </div>
+  </main>
 
+  <div id="signup-modal" class="auth-modal">
+    <div class="auth-form">
+      <span class="close-button" onclick="closeAuthModal('signup-modal')">×</span>
+      <h2>Sign Up</h2>
+      <div id="signup-error" class="error-message"></div>
+      <input type="email" id="signup-email" placeholder="Email">
+      <input type="password" id="signup-password" placeholder="Password">
+      <button id="submit-signup">Create Account</button>
+      <p>Already have an account? <a href="#" onclick="openAuthModal('signin-modal'); closeAuthModal('signup-modal');">Sign In</a></p>
+    </div>
+  </div>
 
-    <body>
-        <!-- Google Tag Manager (noscript) -->
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PV5BD99R"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
-        <!-- Add HTML markup elements for your web site below -->
-        <h1>Welcome to Project Title!</h1>
-        <p>Here are some more details.</p>
-        <a href="https://www.sdcwa.org/about-us/history/" target="_blank" class="button">Test For Tag Manager</a>
-
-    </body>
-    <p>Click the button below to go to the rewards page</p>
-    <a href="rewards.html" class="button">Go to Rewards</a>
-    <footer>
-        <p>Made by: WIC &hearts;</p>
-    </footer>
+  <div id="signin-modal" class="auth-modal">
+    <div class="auth-form">
+      <span class="close-button" onclick="closeAuthModal('signin-modal')">×</span>
+      <h2>Sign In</h2>
+      <div id="signin-error" class="error-message"></div>
+      <input type="email" id="signin-email" placeholder="Email">
+      <input type="password" id="signin-password" placeholder="Password">
+      <button id="submit-signin">Sign In</button>
+      <p>Don't have an account? <a href="#" onclick="openAuthModal('signup-modal'); closeAuthModal('signin-modal');">Sign Up</a></p>
+    </div>
+  </div>
+</body>
 </html>

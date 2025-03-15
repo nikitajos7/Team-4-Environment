@@ -5,62 +5,21 @@ const plantImages = [
   { minPoints: 31, maxPoints: 40, url: 'plantimage/flower.png' },
 ];
 
-function checkPointsThreshold() {
-  const points = getUserPoints();
+function checkPointsThreshold(points) {
   if (points >= 40) {
-    setUserPoints(0);
     alert('Congratulations! You grew an entire plant! You can start growing a new plant now.');
+    updatePlantImage(points);
   }
 }
 
-checkPointsThreshold();
-
-function getUserPoints() {
-  return parseInt(localStorage.getItem('userPoints')) || 0;
-}
-
-function setUserPoints(points) {
-  localStorage.setItem('userPoints', points);
-}
-
-function incrementUserPoints() {
-  let points = getUserPoints();
-  points += 40; 
-  setUserPoints(points);
-}
-
-function getPlantImage(points) {
-  for (let i = 0; i < plantImages.length; i++) {
-    if (points >= plantImages[i].minPoints && points <= plantImages[i].maxPoints) {
-      return plantImages[i].url;
-    }
-  }
-  return 'defaultPlant.jpg';
-}
-
-function updatePlantImage() {
-  const points = getUserPoints();
-  const imageUrl = getPlantImage(points);
-  const plantImageElement = document.getElementById('plantImage');
-  plantImageElement.src = imageUrl;
-}
-
-function updatePointsDisplay() {
-  const points = getUserPoints();
+function updatePointsDisplay(points) {
   const pointsDisplayElement = document.getElementById('pointsDisplay');
-  pointsDisplayElement.textContent = points;
+  if (pointsDisplayElement) {
+    pointsDisplayElement.textContent = points;
+  }
+  updatePlantImage(points); 
 }
 
-if (localStorage.getItem('userPoints') === null) {
-  setUserPoints(0);
-}
-
-if (!sessionStorage.getItem('pageVisited')) {
-  incrementUserPoints();
-  sessionStorage.setItem('pageVisited', 'true');
-}
-
-window.onload = function() {
-  updatePlantImage();
-  updatePointsDisplay();
+window.onload = function () {
+  displayUserPoints();
 };
